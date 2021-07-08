@@ -16,6 +16,7 @@ public class Topic_05_Web_Element_Exercise {
     WebDriver driver;
 
     String firstName, lastName, fullName, emailAddress, password;
+    By mailTextbox, educationTextarea, radioButtonUnder18, nameUser5, jobRole1Dropdown, jobRole2Dropdown, interestDevCheckbox, slider1, passwordTxt, ageRadioButton, biography, jobRole3, interestCheckbox, slider2, languagesJava;
 
     @BeforeClass
     public void beforeClass() {
@@ -31,9 +32,25 @@ public class Topic_05_Web_Element_Exercise {
         fullName = firstName + " " + lastName;
         emailAddress = gennerateEmail(lastName);
         password = "123456";
+
+        mailTextbox = By.xpath("//input[@id='mail']");
+        educationTextarea = By.xpath("//textarea [@id='edu']");
+        radioButtonUnder18 = By.xpath("//input[@id='under_18']");
+        nameUser5 = By.xpath("//h5[text()='Name: User5']");
+        jobRole1Dropdown = By.cssSelector("#job1");
+        jobRole2Dropdown = By.cssSelector("#job2>option");
+        interestDevCheckbox = By.cssSelector("#development");
+        slider1 = By.cssSelector("#slider-1");
+        passwordTxt = By.xpath("//input[@id='password' and @name='user_pass']");
+        ageRadioButton = By.cssSelector("#radio-disabled");
+        biography = By.cssSelector("#bio");
+        jobRole3 = By.cssSelector("#job3");
+        interestCheckbox = By.cssSelector("#check-disbaled");
+        slider2 = By.cssSelector("#slider-2");
+        languagesJava = By.cssSelector("#java");
     }
 
-//    @Test
+    @Test
     public void TC_01_Create_New_Account() {
         driver.get("http://live.demoguru99.com/");
 
@@ -74,7 +91,7 @@ public class Topic_05_Web_Element_Exercise {
         driver.findElement(By.xpath("//a[@title='Log Out']")).click();
     }
 
-//    @Test
+    @Test
     public void TC_02_Login() {
         // Open Home page
         driver.get("http://live.demoguru99.com/");
@@ -102,7 +119,7 @@ public class Topic_05_Web_Element_Exercise {
         Assert.assertTrue(driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div[@class='box-content']/p")).getText().contains(emailAddress));
     }
 
-//    @Test
+    @Test
     public void TC_03_Displayed_Newbie() {
         // Open Homepage
         driver.get("https://automationfc.github.io/basic-form/index.html");
@@ -147,66 +164,194 @@ public class Topic_05_Web_Element_Exercise {
 
         // Check isDisplay
         // Email
-
-        By mailTextbox = By.xpath("//input[@id='mail']");
-        if (isElementDisplayed(mailTextbox)){
+        if (isElementDisplayed(mailTextbox)) {
             sendKeyToElement(mailTextbox, "Automation Testing");
         }
 
         // Education
-        By educationTextarea = By.xpath("//textarea [@id='edu']");
-        if (isElementDisplayed(educationTextarea)){
+        if (isElementDisplayed(educationTextarea)) {
             sendKeyToElement(educationTextarea, "Automation Testing");
         }
 
         // Age (under 18)
-        By radioButtonUnder18 = By.xpath("//input[@id='under_18']");
-        if (isElementDisplayed(radioButtonUnder18)){
-            clickOnElement(radioButtonUnder18);
+        if (isElementDisplayed(radioButtonUnder18)) {
+            clickToElement(radioButtonUnder18);
         }
 
         // Name: User5
-        By nameUser5 = By.xpath("//h5[text()='Name: User5']");
-        if (isElementDisplayed(nameUser5)){
+        if (isElementDisplayed(nameUser5)) {
 
         }
     }
 
     @Test
     public void TC_04_Enabled_Function() {
-        // Open Homepage
+        // Step 1: Open Homepage
         driver.get("https://automationfc.github.io/basic-form/index.html");
+
+        // Step 2: Check is Enable
+        // Email
+        Assert.assertTrue(isElementEnabled(mailTextbox));
+        // Age (under 18)
+        Assert.assertTrue(isElementEnabled(radioButtonUnder18));
+        // Education
+        Assert.assertTrue(isElementEnabled(educationTextarea));
+        // Job role 1
+        Assert.assertTrue(isElementEnabled(jobRole1Dropdown));
+        // Job role 2
+        Assert.assertTrue(isElementEnabled(jobRole2Dropdown));
+        // Interest Development Checkbox
+        Assert.assertTrue(isElementEnabled(interestDevCheckbox));
+        // Slider 1
+        Assert.assertTrue(isElementEnabled(slider1));
+
+        // Step 3: Check is disable
+        // Password
+        Assert.assertFalse(isElementEnabled(passwordTxt));
+        // Age (Radio button is disable)
+        Assert.assertFalse(isElementEnabled(ageRadioButton));
+        // Biography
+        Assert.assertFalse(isElementEnabled(biography));
+        // Job role 3
+        Assert.assertFalse(isElementEnabled(jobRole3));
+        // Interests
+        Assert.assertFalse(isElementEnabled(interestCheckbox));
+        // Slider 02
+        Assert.assertFalse(isElementEnabled(slider2));
     }
 
     @Test
-    public void TC_03_Selected() {
-        // Open Homepage
+    public void TC_05_Selected() {
+        // Step 1: Open Homepage
         driver.get("https://automationfc.github.io/basic-form/index.html");
 
+        // Step 2: Click on Age under 18 radio button and Languages java checkbox
+        clickToElement(radioButtonUnder18);
+        clickToElement(languagesJava);
+
+        // Step 3: Verify elements which is selected in step 2: is Selected
+        Assert.assertTrue(isElementSelected(radioButtonUnder18));
+        Assert.assertTrue(isElementSelected(languagesJava));
+
+        // Step 4: Uncheck on Languages java checkbox
+        clickToElement(languagesJava);
+
+        // Step 5: Verify elements which is selected in step 2: is not Selected
+        Assert.assertFalse(isElementSelected(languagesJava));
     }
 
-    public boolean isElementDisplayed(By by){
-        if (driver.findElement(by).isDisplayed()){
-            System.out.println(by + "is displayed");
+    @Test
+    public void TC_06_Register_Function() {
+        // Variables
+        By email = By.id("email");
+        By username = By.id("new_username");
+        By password = By.id("new_password");
+        By validatePassNumber = By.cssSelector(".number-char.completed");
+        By validatePassLowerCase = By.cssSelector(".lowercase-char.completed");
+        By validatePassUpperCase = By.cssSelector(".uppercase-char.completed");
+        By validatePassSpecialCharacter = By.cssSelector(".special-char.completed");
+        By validatePassCharacterMin = By.xpath("//li[@class='8-char completed']");
+        By signupButton = By.xpath("//button[@id='create-account']");
+        By checkbox = By.xpath("//input[@id='marketing_newsletter']");
+
+        // Step 1: Open Homepage
+        driver.get("https://login.mailchimp.com/signup/");
+
+        // Step 2: Input invalid data on email and username
+        sendKeyToElement(email, "automationfc@gmail.com");
+        sendKeyToElement(username, "automationfc");
+
+        // Step 3: Input difference password to verify validation password
+        //          and Verify Sign up button is disable when password field is invalid
+        // Input number
+        sendKeyToElement(password, "1");
+        Assert.assertTrue(isElementDisplayed(validatePassNumber));
+        Assert.assertFalse(isElementEnabled(signupButton));
+
+        // Input lower case
+        driver.findElement(password).clear();
+        sendKeyToElement(password, "a");
+        Assert.assertTrue(isElementDisplayed(validatePassLowerCase));
+        Assert.assertFalse(isElementEnabled(signupButton));
+
+        // Input upper case
+        driver.findElement(password).clear();
+        sendKeyToElement(password, "A");
+        Assert.assertTrue(isElementDisplayed(validatePassUpperCase));
+        Assert.assertFalse(isElementEnabled(signupButton));
+
+        // Input Special character
+        driver.findElement(password).clear();
+        sendKeyToElement(password, "#");
+        Assert.assertTrue(isElementDisplayed(validatePassSpecialCharacter));
+        Assert.assertFalse(isElementEnabled(signupButton));
+
+        // Input Character minimum
+        driver.findElement(password).clear();
+        sendKeyToElement(password, "1111111111111111");
+        Assert.assertTrue(isElementDisplayed(validatePassCharacterMin));
+        Assert.assertTrue(isElementDisplayed(validatePassNumber));
+        Assert.assertFalse(isElementEnabled(signupButton));
+
+        // All criteria
+        driver.findElement(password).clear();
+        sendKeyToElement(password, "Automation123***");
+
+        Assert.assertFalse(isElementDisplayed(validatePassLowerCase));
+        Assert.assertFalse(isElementDisplayed(validatePassUpperCase));
+        Assert.assertFalse(isElementDisplayed(validatePassNumber));
+        Assert.assertFalse(isElementDisplayed(validatePassSpecialCharacter));
+        Assert.assertFalse(isElementDisplayed(validatePassCharacterMin));
+
+        Assert.assertTrue(isElementEnabled(signupButton));
+
+        // Step 4: Click on checkbox and verify
+        clickToElement(checkbox);
+        Assert.assertTrue(isElementSelected(checkbox));
+    }
+
+    public boolean isElementDisplayed(By by) {
+        if (driver.findElement(by).isDisplayed()) {
+            System.out.println(by + " is displayed");
             return true;
         } else {
-            System.out.println(by + "is not displayed");
+            System.out.println(by + " is not displayed");
             return false;
         }
     }
 
-    public void sendKeyToElement(By by, String key){
+    public boolean isElementEnabled(By by) {
+        if (driver.findElement(by).isEnabled()) {
+            System.out.println(by + " is enabled");
+            return true;
+        } else {
+            System.out.println(by + " is not enabled");
+            return false;
+        }
+    }
+
+    public boolean isElementSelected(By by) {
+        if (driver.findElement(by).isSelected()) {
+            System.out.println(by + " is selected");
+            return true;
+        } else {
+            System.out.println(by + " is not selected (de-selected)");
+            return false;
+        }
+    }
+
+    public void sendKeyToElement(By by, String key) {
         driver.findElement(by).clear();
         driver.findElement(by).sendKeys(key);
     }
 
-    public void clickOnElement (By by){
+    public void clickToElement(By by) {
         driver.findElement(by).click();
     }
 
     @AfterClass
     public void afterClass() {
-//        driver.quit();
+        driver.quit();
     }
 
     public void sleepInSecond(long timeoutInSecond) {
