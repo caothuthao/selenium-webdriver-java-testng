@@ -110,11 +110,6 @@ public class Topic_11_User_Interaction_Part_I {
         Assert.assertEquals(driver.findElements(By.cssSelector("#selectable>li.ui-selected")).size(), 4);
     }
 
-    @Test
-    public void TC_03_() {
-
-    }
-
     @AfterClass
     public void afterClass() {
         driver.quit();
