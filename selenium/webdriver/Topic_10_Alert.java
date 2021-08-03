@@ -141,7 +141,7 @@ public class Topic_10_Alert {
 
     }
 
-    @Test
+//    @Test
     public void TC_04_Authentication_Alert_03() throws IOException {
         // Execute script trước
         Runtime.getRuntime().exec(new String[]{
