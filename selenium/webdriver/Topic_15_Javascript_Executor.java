@@ -231,8 +231,6 @@ public class Topic_15_Javascript_Executor {
         // Get userID and password
         String userID = driver.findElement(By.xpath("//td[text()='User ID :']/following-sibling::td")).getText();
         String password = driver.findElement(By.xpath("//td[text()='Password :']/following-sibling::td")).getText();
-        System.out.println("UserID: " + userID);
-        System.out.println("Pass: " + password);
 
         // Open Login page
         driver.get("http://demo.guru99.com/v4");
