@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class Topic_16_Upload_File {
@@ -98,9 +99,40 @@ public class Topic_16_Upload_File {
         Assert.assertEquals(driver.findElement(By.xpath("(//tbody[@class='files']//p[@class='name']/a)[3]")).getText(), imgName03);
     }
 
+//    @Test
+    public void TC_03_Sendkey() {
+        driver.get("https://gofile.io/?t=uploadFiles");
+
+        // Send key to upload file element
+        driver.findElement(By.xpath("//input[@type='file']")).sendKeys(imgFilePath01);
+        sleepInSecond(5);
+
+        // Click on link to verify
+        driver.findElement(By.xpath("//a[@id='rowUploadSuccess-downloadPage']")).click();
+
+        // Switch to new tab
+        String parentID = driver.getWindowHandle();
+        switchToWindowByID(parentID);
+
+        // Verify
+        Assert.assertEquals(driver.findElement(By.xpath("//span[@class='contentName']")).getText(), imgName01);
+    }
+
     @AfterClass
     public void afterClass() {
         driver.quit();
+    }
+
+    public void switchToWindowByID(String parentID) {
+        // Get ra tất cả các tab/ windows đang có
+        Set<String> allWindows = driver.getWindowHandles();
+
+        // Dùng vòng lặp để duyệt qua từng window
+        for (String id : allWindows) {
+            if (!id.equals(parentID)) {
+                driver.switchTo().window(id);
+            }
+        }
     }
 
     public void sleepInSecond(long timeoutInSecond) {
