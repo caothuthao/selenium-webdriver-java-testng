@@ -95,15 +95,13 @@ public class Topic_17_Wait_Part_VI_Mixing {
         } catch (Exception e){
 
         }
-
         System.out.println("End implicit: " + getDateTimeNow());
-
 
         // Explicit
         System.out.println("Start Explicit: " + getDateTimeNow());
         // Nhận timeout của cả 2 trong hàm visibilityOfElementLocated
-        // driver.findElementLocator(locator) => bị ảnh hưởng timeout của implicit: 5s
-        // elementIfVisible => bị ảnh hưởng timeout của explicit: 3s
+        // driver.findElementLocator(locator) => bị ảnh hưởng timeout của implicit
+        // elementIfVisible => bị ảnh hưởng timeout của explicit
         try {
             explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#tiki")));
         } catch (Exception e){
@@ -124,8 +122,10 @@ public class Topic_17_Wait_Part_VI_Mixing {
         System.out.println("Start Explicit: " + getDateTimeNow());
 
         try {
-//            explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#tiki")));
+            explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#tiki")));
+
             explicitWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector("input#tiki"))));
+
         } finally {
             System.out.println("End Explicit: " + getDateTimeNow());
         }
